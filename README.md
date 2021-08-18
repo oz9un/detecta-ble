@@ -1,5 +1,5 @@
 
-# DETECTA-BLE 🔎
+# DETECTA_BLE 🔎
 
 A brief description of what this project does and who it's for
 
