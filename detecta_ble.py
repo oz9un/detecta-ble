@@ -19,7 +19,7 @@ class ScanDelegate(DefaultDelegate):
     def __init__(self):
         DefaultDelegate.__init__(self)
 
-    #Override the handleDiscovery method, thus we can keep statistics.
+    # Override the handleDiscovery method, thus we can keep statistics.
     def handleDiscovery(self, scanEntry, isNewDev, isNewData):
         # This function called when advertising data is received from an LE device.
         if isNewDev:
@@ -33,11 +33,39 @@ class ScanDelegate(DefaultDelegate):
         if SHOW_RSSI:
             print(RSSI)
 
+    # Override the handleNotification method, it is called when a notification or indication is received from a connected Peripheral object.
+    # But this function will be mostly unnecessary, because detecta_ble will be used for scanning purposes.
+    def handleNotification(self, cHandle, data):
+        print("Notification received")
+        print("chandle -> " + cHandle)
+        print(binascii.b2a_hex(data))
+
+
+def serviceExtractor(services):
+    if len(services) > 0:
+        print("\nSERVICES FOUND!")
+        for serv in list(services):
+            print("Service UUID -> ", serv.uuid)
+            characteristics = serv.getCharacteristics()
+            charsExtractor(characteristics)    
+    else:
+        print("No service detected for this device.")                
+
+
+def charsExtractor(characteristics):
+    if len(characteristics) > 0:
+        print("\nCharacteristics:")
+        for char in characteristics:
+            print("Characteristic UUID -> ", char.uuid)
+            print("Characteristic Properties -> ", char.propertiesToString())
+    else:
+        print("No characteristic detected for this service.")
+
 
 # Where magic happens.
 def BLEScanner(scanTime, interface):
     scanner = Scanner(1).withDelegate(ScanDelegate())
-    devices = scanner.scan(scanTime)
+    devices = scanner.scan(int(scanTime))
 
     for dev in devices:
         print('------------------------------------------------')
@@ -47,25 +75,15 @@ def BLEScanner(scanTime, interface):
             try:
                 p1 = Peripheral(dev.addr, iface=interface)
                 services = p1.getServices()
-                if len(services) > 0:
-                    print("\nSERVICES FOUND!")
-                    for serv in list(services):
-                        print("Service UUID -> ", serv.uuid)
-                        characteristics = serv.getCharacteristics()
-                        if len(characteristics) > 0:
-                            print("\nCharacteristics:")
-                            for char in characteristics:
-                                print("Characteristic UUID -> ", char.uuid)
-                                print("Characteristic Properties -> ", char.propertiesToString())
-
+                serviceExtractor(services)
             except:
                 pass
         print('------------------------------------------------\n\n')
 
-        print('--------------------ADVERTISING COUNTS--------------------')
-        for adv in ADVERTISING_MACS.keys():
-            print(adv + "  ->  " + str(ADVERTISING_MACS[adv]))
-        print('----------------------------------------------------------')
+    print('--------------------ADVERTISING COUNTS--------------------')
+    for adv in ADVERTISING_MACS.keys():
+        print(adv + "  ->  " + str(ADVERTISING_MACS[adv]))
+    print('----------------------------------------------------------')
 
     if FILE_WRITE != "":
         fileOperations()
@@ -102,13 +120,16 @@ if __name__ == '__main__':
     parser.add_argument("-w", "--write_folder", default="")
 
     args = vars(parser.parse_args())
-
+    
     SHOW_ADV = args['show_adv']
     SHOW_RSSI = args['show_rssi']
     FILE_WRITE = args['write_folder']
+
 
     f = Figlet(font='slant')
     print(f.renderText('DETECTA_BLE'))
     time.sleep(2)
     
     BLEScanner(args['scan_time'], args['interface'])
+
+
