@@ -1,5 +1,4 @@
 
-
 # DETECTA-BLE 🔎
 
 
@@ -36,11 +35,10 @@ Detecta-ble currently has 5 arguments:
 └─$ sudo python3 detecta_ble.py -i 0 -t 20 -w BLE_STATISTICS -adv 
 ```
 
-## Documentation
 
-will be added soon.
-  
-  
-## Screenshots
 
-![Detectable screenshot](detectable.png)
+
+  
+## Help Menu
+
+![Help Menu](https://ibb.co/SNXsb71)
