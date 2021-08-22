@@ -43,4 +43,4 @@ Detecta-ble currently has 5 arguments:
   
 ## Help Menu
 
-![Help Menu](https://i.ibb.co/TcBv6qn/detectable-help.png)
+![Help Menu](https://i.ibb.co/PzTrXv4/index.png)
