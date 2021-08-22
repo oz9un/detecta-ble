@@ -23,8 +23,9 @@ Detecta-ble currently has 5 arguments:
 #### Example 1:
 - Use hci1 bluetooh interface.
 - Scan nearby BLE devices for 5 seconds.
+- Save json output.
 ```python
-└─$ sudo python3 detecta_ble.py -i 1 -t 5
+└─$ sudo python3 detecta_ble.py -i 1 -t 5 -json
 ```
 
 #### Example 2: 
