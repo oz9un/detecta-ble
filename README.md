@@ -15,6 +15,7 @@ Detecta-ble currently has 5 arguments:
 3. **-adv (--show_adv):** Enable showing real-time *ble addresses* of advertisement packets while detecta-ble is scanning.
 4. **-rssi (--show_rssi):** Enable showing real-time *rssi values* of advertisement packets while detecta-ble is scanning.
 5. **-w (--write_folder):** Name of the folder if you want to keep statistics for "*advertisement packet counts per device*" and "*latest rssi values of devices*"
+6. **-json (--json):** Save output in json format (with timestamp).
 
 ## Usage Examples
 
